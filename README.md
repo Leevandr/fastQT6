@@ -3,10 +3,10 @@
 `fastqt6` - это небольшая библиотека-шаблон для PyQt6-проектов: динамические формы,
 CRUD-окна, SQL-хелперы и генерация `.ui` файлов для Qt Designer.
 
-Установка после публикации:
+Установка:
 
 ```bash
-pip install fastqt6
+python -m pip install fastqt6
 ```
 
 Локальная установка из репозитория:
@@ -15,7 +15,57 @@ pip install fastqt6
 python -m pip install -e .
 ```
 
-## Быстрый пример
+## Быстрый старт в PyCharm
+
+1. Создай новый проект в PyCharm:
+
+```text
+File -> New Project -> Pure Python
+```
+
+2. Открой вкладку `Terminal` внизу PyCharm и установи библиотеку:
+
+```bash
+python -m pip install fastqt6
+```
+
+3. Создай готовый маленький проект:
+
+```bash
+fastqt6 scaffold .
+```
+
+Если команда `fastqt6` не находится, используй так:
+
+```bash
+python -m fastqt6.cli scaffold .
+```
+
+4. Запусти файл `main.py` в PyCharm. Откроется простое CRUD-окно с таблицей
+товаров. Это минимальный пример, который можно дальше менять под свой вариант.
+
+5. Для генерации `.ui` файлов Qt Designer:
+
+```bash
+mkdir ui gen
+fastqt6 ui-auth ui/auth.ui
+fastqt6 ui-main ui/main.ui --tabs "Каталог,Мои заказы,Все заказы,Статистика"
+fastqt6 ui-form ui/product.ui --title "Товар" --class-name ProductDialog \
+  --field article:text:Артикул \
+  --field title:text:Название \
+  --field price:float:Цена
+```
+
+6. Конвертация `.ui` в Python:
+
+```bash
+pyuic6 ui/product.ui -o gen/product.py
+```
+
+Полный урок для PyCharm:
+[docs/PYCHARM_TUTORIAL.md](https://github.com/Leevandr/fastQT6/blob/main/docs/PYCHARM_TUTORIAL.md).
+
+## Быстрый пример кода
 
 ```python
 from PyQt6.QtWidgets import QApplication

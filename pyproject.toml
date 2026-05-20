@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fastqt6"
-version = "0.1.0"
+version = "0.1.1"
 description = "Convenient PyQt6 templates for dynamic forms, CRUD windows, Designer .ui files and SQL helpers"
 readme = "README.md"
 requires-python = ">=3.10"

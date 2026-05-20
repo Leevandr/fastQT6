@@ -5,7 +5,7 @@ from .designer import DesignerForm, write_auth_ui, write_form_ui, write_main_win
 from .fields import Choice, FieldSpec, field
 from .forms import DynamicForm, DynamicFormDialog
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "Choice",
