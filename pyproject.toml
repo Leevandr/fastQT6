@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastqt6"
+version = "0.1.0"
+description = "Convenient PyQt6 templates for dynamic forms, CRUD windows, Designer .ui files and SQL helpers"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Leevandr" }
+]
+keywords = ["pyqt6", "qt", "designer", "mysql", "crud", "forms"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+    "Topic :: Software Development :: User Interfaces",
+]
+dependencies = [
+    "PyQt6>=6.6",
+    "PyMySQL>=1.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/Leevandr/fastQT6"
+Repository = "https://github.com/Leevandr/fastQT6"
+
+[project.scripts]
+fastqt6 = "fastqt6.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
