@@ -8,6 +8,7 @@ from pathlib import Path
 from .designer import write_auth_ui, write_form_ui, write_main_window_ui
 from .fields import field
 from .scaffold import scaffold_basic_app
+from .tutorial import copy_tutorial, read_tutorial, tutorial_path
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -35,6 +36,10 @@ def main(argv: list[str] | None = None) -> int:
         help="field as name:kind:label, for example article:text:Артикул",
     )
 
+    tutorial_parser = subparsers.add_parser("tutorial", help="show or copy the offline tutorial")
+    tutorial_parser.add_argument("--copy", nargs="?", const="FASTQT6_TUTORIAL.md", help="copy tutorial to a file")
+    tutorial_parser.add_argument("--print", action="store_true", dest="print_text", help="print tutorial text")
+
     args = parser.parse_args(argv)
 
     if args.command == "scaffold":
@@ -54,6 +59,15 @@ def main(argv: list[str] | None = None) -> int:
         specs = [_parse_field(raw) for raw in args.field]
         write_form_ui(args.path, specs, title=args.title, class_name=args.class_name)
         print(args.path)
+        return 0
+    if args.command == "tutorial":
+        if args.copy:
+            target = copy_tutorial(args.copy)
+            print(f"Copied tutorial to {target}")
+        elif args.print_text:
+            print(read_tutorial())
+        else:
+            print(tutorial_path())
         return 0
     return 1
 

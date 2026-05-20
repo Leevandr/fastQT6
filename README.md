@@ -65,6 +65,32 @@ pyuic6 ui/product.ui -o gen/product.py
 Полный урок для PyCharm:
 [docs/PYCHARM_TUTORIAL.md](https://github.com/Leevandr/fastQT6/blob/main/docs/PYCHARM_TUTORIAL.md).
 
+## Офлайн-туториал внутри установленной библиотеки
+
+Начиная с версии `0.1.2`, инструкция лежит прямо внутри пакета. После
+`python -m pip install fastqt6` ее можно открыть без интернета в PyCharm:
+
+```text
+External Libraries
+  -> Python ...
+  -> site-packages
+  -> fastqt6
+  -> docs
+  -> PYCHARM_TUTORIAL.md
+```
+
+Также можно скопировать инструкцию в текущий проект:
+
+```bash
+fastqt6 tutorial --copy
+```
+
+Или просто узнать путь к файлу внутри `site-packages`:
+
+```bash
+fastqt6 tutorial
+```
+
 ## Быстрый пример кода
 
 ```python
