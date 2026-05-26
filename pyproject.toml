@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fastqt6"
-version = "0.1.2"
+version = "0.2.0"
 description = "Convenient PyQt6 templates for dynamic forms, CRUD windows, Designer .ui files and SQL helpers"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,9 +37,10 @@ fastqt6 = "fastqt6.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
+include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-fastqt6 = ["docs/*.md"]
+fastqt6 = ["docs/*.md", "templates/demo_exam_obuv/**/*", "templates/demo_exam_obuv/.gitignore"]

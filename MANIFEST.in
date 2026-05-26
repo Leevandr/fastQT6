@@ -1,0 +1,3 @@
+recursive-include src/fastqt6/docs *.md
+recursive-include src/fastqt6/templates *
+include src/fastqt6/templates/demo_exam_obuv/.gitignore

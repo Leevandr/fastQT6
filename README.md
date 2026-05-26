@@ -1,132 +1,122 @@
 # fastqt6
 
-`fastqt6` - это небольшая библиотека-шаблон для PyQt6-проектов: динамические формы,
-CRUD-окна, SQL-хелперы и генерация `.ui` файлов для Qt Designer.
+`fastqt6` - небольшая библиотека для подготовки к PyQt6/MySQL-проектам на демоэкзамене 09.02.07: готовые шаблоны, CRUD-окна, генерация `.ui` файлов и офлайн-документы.
 
-Установка:
+## Установка
 
 ```bash
 python -m pip install fastqt6
 ```
 
-Локальная установка из репозитория:
+Локально из репозитория:
 
 ```bash
 python -m pip install -e .
 ```
 
-## Быстрый старт в PyCharm
+## Готовый проект «Обувь»
 
-1. Создай новый проект в PyCharm:
-
-```text
-File -> New Project -> Pure Python
-```
-
-2. Открой вкладку `Terminal` внизу PyCharm и установи библиотеку:
+Создать полный шаблон проекта для демоэкзамена:
 
 ```bash
-python -m pip install fastqt6
+fastqt6 exam-obuv demo_exam_obuv
+cd demo_exam_obuv
+python -m venv .venv
+.\.venv\Scripts\activate.ps1
+python -m pip install -r requirements.txt
+python -m src.main
 ```
 
-3. Создай готовый маленький проект:
+Если команда `fastqt6` не находится:
 
 ```bash
-fastqt6 scaffold .
+python -m fastqt6.cli exam-obuv demo_exam_obuv
 ```
 
-Если команда `fastqt6` не находится, используй так:
+Внутри шаблона уже есть:
+
+- `src/` - PyQt6-приложение с авторизацией, ролями, товарами и заказами;
+- `ui/` - исходные `.ui` файлы Qt Designer и сгенерированные Python-файлы;
+- `sql/shoes.sql` - база данных MySQL для импорта;
+- `resources/images/` - изображения и заглушка товара;
+- `docs/DEMO_EXAM_OBUV_GUIDE.md` - чек-лист требований, баллов и ручной проверки;
+- `docs/er_diagram.pdf` - ER-диаграмма для сдачи;
+- `docs/algorithm.pdf` - блок-схема алгоритма для сдачи.
+
+База в шаблоне рассчитана на MySQL: база `shoes`, порт `3308`, пользователь `root`, пароль пустой. Эти значения легко поменять в `src/db.py`.
+
+Тестовые пользователи:
+
+| Роль | Логин | Пароль |
+|---|---|---|
+| Администратор | `admin` | `1` |
+| Администратор | `levandr` | `1` |
+| Менеджер | `manager` | `1` |
+| Клиент | `client` | `1` |
+| Гость | кнопка гостевого входа | без пароля |
+
+## Офлайн-гайд по демоэкзамену
+
+Показать путь к гайду внутри установленной библиотеки:
 
 ```bash
-python -m fastqt6.cli scaffold .
+fastqt6 exam-guide
 ```
 
-4. Запусти файл `main.py` в PyCharm. Откроется простое CRUD-окно с таблицей
-товаров. Это минимальный пример, который можно дальше менять под свой вариант.
-
-5. Для генерации `.ui` файлов Qt Designer:
+Скопировать гайд в текущий проект:
 
 ```bash
-mkdir ui gen
-fastqt6 ui-auth ui/auth.ui
-fastqt6 ui-main ui/main.ui --tabs "Каталог,Мои заказы,Все заказы,Статистика"
-fastqt6 ui-form ui/product.ui --title "Товар" --class-name ProductDialog \
+fastqt6 exam-guide --copy
+```
+
+Вывести текст прямо в терминал:
+
+```bash
+fastqt6 exam-guide --print
+```
+
+## Минимальный CRUD-шаблон
+
+```bash
+fastqt6 scaffold my_app
+cd my_app
+python main.py
+```
+
+Он создает маленькое SQLite-приложение с таблицей товаров. Это удобно, если нужно быстро вспомнить базовую механику `fastqt6`, без большого экзаменационного проекта.
+
+## Генерация `.ui` файлов
+
+Создать окно авторизации:
+
+```bash
+fastqt6 ui-auth ui/Auth.ui
+```
+
+Создать главное окно с вкладками:
+
+```bash
+fastqt6 ui-main ui/MainWidget.ui --tabs "Товары,Заказы"
+```
+
+Создать форму:
+
+```bash
+fastqt6 ui-form ui/ItemDialog.ui \
+  --title "Товар" \
+  --class-name ItemDialog \
   --field article:text:Артикул \
   --field title:text:Название \
   --field price:float:Цена
 ```
 
-6. Конвертация `.ui` в Python:
+Конвертация `.ui` в Python:
 
 ```bash
-pyuic6 ui/product.ui -o gen/product.py
+pyuic6 ui/ItemDialog.ui -o ui/gen/ItemDialog.py
 ```
 
-Полный урок для PyCharm:
-[docs/PYCHARM_TUTORIAL.md](https://github.com/Leevandr/fastQT6/blob/main/docs/PYCHARM_TUTORIAL.md).
-
-## Офлайн-туториал внутри установленной библиотеки
-
-Начиная с версии `0.1.2`, инструкция лежит прямо внутри пакета. После
-`python -m pip install fastqt6` ее можно открыть без интернета в PyCharm:
-
-```text
-External Libraries
-  -> Python ...
-  -> site-packages
-  -> fastqt6
-  -> docs
-  -> PYCHARM_TUTORIAL.md
-```
-
-Также можно скопировать инструкцию в текущий проект:
-
-```bash
-fastqt6 tutorial --copy
-```
-
-Или просто узнать путь к файлу внутри `site-packages`:
-
-```bash
-fastqt6 tutorial
-```
-
-## Быстрый пример кода
-
-```python
-from PyQt6.QtWidgets import QApplication
-from fastqt6 import SQLDatabase, field
-from fastqt6.widgets import CrudWindow
-
-SCHEMA = """
-create table if not exists products (
-    id integer primary key autoincrement,
-    article text not null,
-    title text not null,
-    price real not null default 0,
-    stock integer not null default 0
-);
-"""
-
-app = QApplication([])
-db = SQLDatabase.sqlite("app.db")
-db.run_script(SCHEMA)
-
-window = CrudWindow(
-    db,
-    table="products",
-    fields=[
-        field("article", "Артикул", required=True),
-        field("title", "Название", required=True),
-        field("price", "Цена", "float", min_value=0),
-        field("stock", "Остаток", "int", min_value=0),
-    ],
-)
-window.show()
-app.exec()
-```
-
-## SQL-хелперы
+## SQL-хелпер
 
 SQLite:
 
@@ -134,10 +124,8 @@ SQLite:
 from fastqt6 import SQLDatabase
 
 db = SQLDatabase.sqlite("app.db")
-db.insert("products", {"article": "A-1", "title": "Мяч", "price": 1000})
-rows = db.select("products", where="price > ?", params=(500,), order_by="title")
-db.update("products", {"price": 1200}, "id=?", (1,))
-db.delete("products", "id=?", (1,))
+db.insert("products", {"article": "A-1", "title": "Кроссовки", "price": 2500})
+rows = db.select("products", where="price > ?", params=(1000,), order_by="title")
 ```
 
 MySQL:
@@ -145,13 +133,12 @@ MySQL:
 ```python
 from fastqt6 import SQLDatabase
 
-db = SQLDatabase.mysql("sportplus_kvalik", user="root", password="")
-user = db.login("users", "admin", "admin")
-rows = db.fetch_all("select * from products where title like ?", ("%мяч%",))
+db = SQLDatabase.mysql("shoes", user="root", password="", port=3308)
+user = db.login("users", "admin", "1")
+rows = db.fetch_all("select * from products where title like ?", ("%кросс%",))
 ```
 
-В запросах можно писать `?` как универсальный placeholder. Для MySQL библиотека
-сама заменит его на `%s`.
+В запросах можно писать `?` как универсальный placeholder. Для MySQL библиотека сама заменит его на `%s`.
 
 ## Динамические формы
 
@@ -163,7 +150,7 @@ fields = [
     field("article", "Артикул", required=True),
     field("title", "Название", required=True),
     field("price", "Цена", "float", min_value=0),
-    field("category_id", "Категория", "combo", choices=[("Мячи", 1), ("Обувь", 2)]),
+    field("category_id", "Категория", "combo", choices=[("Кроссовки", 1), ("Туфли", 2)]),
 ]
 
 dialog = DynamicFormDialog(fields, title="Товар")
@@ -171,50 +158,9 @@ if dialog.exec():
     data = dialog.get_data()
 ```
 
-## Генерация файлов Qt Designer
+## Публикация на PyPI
 
-Создать `auth.ui`:
-
-```bash
-fastqt6 ui-auth ui/auth.ui
-```
-
-Создать главное окно с вкладками:
-
-```bash
-fastqt6 ui-main ui/main.ui --tabs "Каталог,Мои заказы,Все заказы,Статистика"
-```
-
-Создать форму:
-
-```bash
-fastqt6 ui-form ui/product.ui \
-  --title "Товар" \
-  --class-name "ProductDialog" \
-  --field article:text:Артикул \
-  --field title:text:Название \
-  --field price:float:Цена \
-  --field stock:int:Остаток
-```
-
-После этого файл можно открыть в Qt Designer или конвертировать:
-
-```bash
-pyuic6 ui/product.ui -o gen/product.py
-```
-
-## CLI
-
-```text
-fastqt6 scaffold my_app
-fastqt6 ui-auth ui/auth.ui
-fastqt6 ui-main ui/main.ui
-fastqt6 ui-form ui/form.ui --field title:text:Название
-```
-
-## Что вводить на PyPI Trusted Publisher
-
-Для репозитория `git@github.com:Leevandr/fastQT6.git` заполни форму так:
+Для Trusted Publisher на PyPI:
 
 ```text
 PyPI Project Name: fastqt6
@@ -224,8 +170,4 @@ Workflow name: publish.yml
 Environment name: pypi
 ```
 
-Workflow уже лежит в `.github/workflows/publish.yml`. В GitHub желательно создать
-environment с названием `pypi`: `Settings -> Environments -> New environment`.
-
-Публикация пойдет через GitHub Actions без API-токена: после настройки Trusted
-Publisher создай GitHub Release или запусти workflow вручную.
+Workflow уже лежит в `.github/workflows/publish.yml`. После пуша и создания GitHub Release публикация пойдет через GitHub Actions без API-токена.

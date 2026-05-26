@@ -6,6 +6,12 @@ import argparse
 from pathlib import Path
 
 from .designer import write_auth_ui, write_form_ui, write_main_window_ui
+from .exam import (
+    copy_demo_exam_guide,
+    demo_exam_guide_path,
+    read_demo_exam_guide,
+    scaffold_demo_exam_obuv,
+)
 from .fields import field
 from .scaffold import scaffold_basic_app
 from .tutorial import copy_tutorial, read_tutorial, tutorial_path
@@ -17,6 +23,10 @@ def main(argv: list[str] | None = None) -> int:
 
     scaffold_parser = subparsers.add_parser("scaffold", help="create a small starter app")
     scaffold_parser.add_argument("target")
+
+    exam_parser = subparsers.add_parser("exam-obuv", help="create the 09.02.07 demo exam project")
+    exam_parser.add_argument("target")
+    exam_parser.add_argument("--force", action="store_true", help="copy over an existing non-empty directory")
 
     auth_parser = subparsers.add_parser("ui-auth", help="create auth.ui")
     auth_parser.add_argument("path")
@@ -40,11 +50,22 @@ def main(argv: list[str] | None = None) -> int:
     tutorial_parser.add_argument("--copy", nargs="?", const="FASTQT6_TUTORIAL.md", help="copy tutorial to a file")
     tutorial_parser.add_argument("--print", action="store_true", dest="print_text", help="print tutorial text")
 
+    guide_parser = subparsers.add_parser("exam-guide", help="show or copy the demo exam guide")
+    guide_parser.add_argument("--copy", nargs="?", const="DEMO_EXAM_OBUV.md", help="copy guide to a file")
+    guide_parser.add_argument("--print", action="store_true", dest="print_text", help="print guide text")
+
     args = parser.parse_args(argv)
 
     if args.command == "scaffold":
         scaffold_basic_app(args.target)
         print(f"Created {args.target}")
+        return 0
+    if args.command == "exam-obuv":
+        try:
+            target = scaffold_demo_exam_obuv(args.target, force=args.force)
+        except FileExistsError as exc:
+            parser.error(str(exc))
+        print(f"Created demo exam project in {target}")
         return 0
     if args.command == "ui-auth":
         write_auth_ui(args.path)
@@ -68,6 +89,15 @@ def main(argv: list[str] | None = None) -> int:
             print(read_tutorial())
         else:
             print(tutorial_path())
+        return 0
+    if args.command == "exam-guide":
+        if args.copy:
+            target = copy_demo_exam_guide(args.copy)
+            print(f"Copied demo exam guide to {target}")
+        elif args.print_text:
+            print(read_demo_exam_guide())
+        else:
+            print(demo_exam_guide_path())
         return 0
     return 1
 
