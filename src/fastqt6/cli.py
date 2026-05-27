@@ -10,6 +10,7 @@ from .exam import (
     copy_demo_exam_guide,
     demo_exam_guide_path,
     read_demo_exam_guide,
+    scaffold_demo_28,
     scaffold_demo_exam_obuv,
 )
 from .fields import field
@@ -27,6 +28,10 @@ def main(argv: list[str] | None = None) -> int:
     exam_parser = subparsers.add_parser("exam-obuv", help="create the 09.02.07 demo exam project")
     exam_parser.add_argument("target")
     exam_parser.add_argument("--force", action="store_true", help="copy over an existing non-empty directory")
+
+    demo_28_parser = subparsers.add_parser("demo-28", help="download the public yulechkamsk1/demo_28 variant")
+    demo_28_parser.add_argument("target")
+    demo_28_parser.add_argument("--force", action="store_true", help="copy over an existing non-empty directory")
 
     auth_parser = subparsers.add_parser("ui-auth", help="create auth.ui")
     auth_parser.add_argument("path")
@@ -66,6 +71,13 @@ def main(argv: list[str] | None = None) -> int:
         except FileExistsError as exc:
             parser.error(str(exc))
         print(f"Created demo exam project in {target}")
+        return 0
+    if args.command == "demo-28":
+        try:
+            target = scaffold_demo_28(args.target, force=args.force)
+        except FileExistsError as exc:
+            parser.error(str(exc))
+        print(f"Created demo_28 project in {target}")
         return 0
     if args.command == "ui-auth":
         write_auth_ui(args.path)
