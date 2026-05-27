@@ -29,7 +29,7 @@ def main(argv: list[str] | None = None) -> int:
     exam_parser.add_argument("target")
     exam_parser.add_argument("--force", action="store_true", help="copy over an existing non-empty directory")
 
-    demo_28_parser = subparsers.add_parser("demo-28", help="download the public yulechkamsk1/demo_28 variant")
+    demo_28_parser = subparsers.add_parser("demo-28", help="copy the bundled yulechkamsk1/demo_28 variant")
     demo_28_parser.add_argument("target")
     demo_28_parser.add_argument("--force", action="store_true", help="copy over an existing non-empty directory")
 

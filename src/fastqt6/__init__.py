@@ -6,7 +6,7 @@ from .exam import copy_demo_exam_guide, scaffold_demo_28, scaffold_demo_exam_obu
 from .fields import Choice, FieldSpec, field
 from .forms import DynamicForm, DynamicFormDialog
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 
 __all__ = [
     "Choice",

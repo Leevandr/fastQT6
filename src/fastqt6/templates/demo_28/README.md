@@ -1,11 +1,22 @@
-﻿# demo_28 remote variant
+Вход для клиента:
+client1
+client123
+Для админа:
+admin1
+admin123
+Для менеджера:
+manager1
+manager123
 
-Source: https://github.com/yulechkamsk1/demo_28
+запуск 
+python -m authwindow
 
-This variant is not bundled directly inside the PyPI wheel because the source repository has no explicit license file. Use the CLI command below to download it from the public GitHub repository:
-
-```bash
-fastqt6 demo-28 my_demo_28
-```
-
-The command also writes helper files into the created project: `requirements.txt`, `.gitignore`, and `FASTQT6_README.md`.
+Способ 1: --onedir (самый простой)
+Просто не используй --onefile, тогда картинки лежат рядом с exe и обычные пути работают:
+bash
+pyinstaller --windowed main.py
+В папке dist/main/ будет:
+dist/main/
+├── main.exe   ✅
+└── images/    ← скопируй сюда свои картинки вручную
+    └── photo.png

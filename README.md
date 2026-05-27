@@ -57,16 +57,21 @@ python -m fastqt6.cli exam-obuv demo_exam_obuv
 
 ## Вариант demo_28
 
-Создать проект из публичного репозитория `yulechkamsk1/demo_28`:
+Полный код варианта из публичного репозитория `yulechkamsk1/demo_28` лежит прямо внутри установленного пакета:
+
+```text
+site-packages/fastqt6/templates/demo_28/
+```
+
+Там находятся `authwindow.py`, `database/`, `window/`, `py_ui/`, `ui/`, `image/`, `shoes (1).sql` и оригинальный `README.md`.
+
+При необходимости этот встроенный вариант можно скопировать в отдельную папку:
 
 ```bash
 fastqt6 demo-28 demo_28
 cd demo_28
-python -m pip install -r requirements.txt
 python -m authwindow
 ```
-
-Этот вариант скачивается с GitHub при выполнении команды. Код не упакован внутрь wheel напрямую, потому что в исходном репозитории нет отдельного файла лицензии. Команда добавляет в созданную папку `FASTQT6_README.md`, `.gitignore` и `requirements.txt`.
 
 ## Офлайн-гайд по демоэкзамену
 
